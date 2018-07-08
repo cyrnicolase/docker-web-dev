@@ -14,15 +14,16 @@ ENV NGINX_CONF_PATH=/usr/local/etc/nginx/nginx.conf
 ENV WORK_DIR=/data/wwwroot
 
 # volume 
-VOLUME /usr/local/etc/
-VOLUME /data
+# VOLUME ["/usr/local/etc/", "/data"]
 
 # 将需要的软件包提前准备好，避免重复下载
-COPY source /opt
+# COPY source /opt
 
-RUN yum install -y wget gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel daemon\
+RUN yum install -y wget gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel daemon \
     && /usr/sbin/useradd -s /sbin/nologin www \
-    && mkdir -p /data/logs/www && mkdir -p /data/wwwroot && chown -R www.www /data \
+    && mkdir -p /data/logs/www \
+    && mkdir -p /data/wwwroot \
+    && chown -R www.www /data \
     && mkdir -p $SOFT_DIR \
     && cd $SOFT_DIR \
     && wget http://nginx.org/download/nginx-1.14.0.tar.gz -O nginx-1.14.0.tar.gz \
@@ -36,10 +37,11 @@ RUN yum install -y wget gcc pcre pcre-devel zlib zlib-devel openssl openssl-deve
         --error-log-path=/data/logs/www  \
     && make -j "$(nproc)" && make install \
 
-    && yum install -y libpng-devel libedit-devel curl-devel unzip \
-                      ntp vim-enhanced gcc-c++ autoconf automake bzip2-devel \
+    && yum install -y curl-devel unzip \
+                      ntp gcc-c++ autoconf bzip2-devel \
                       ncurses-devel libjpeg-devel libpng-devel libtiff-devel freetype-devel \
                       libXpm-devel gettext-devel libxml2-devel  postgresql-devel \
+
     && cd $SOFT_DIR \
     && if [ -f /opt/php-7.1.19.tar.gz ]; then /bin/cp /opt/php-7.1.19.tar.gz $SOFT_DIR ;\
        else wget http://cn.php.net/distributions/php-7.1.19.tar.gz; fi \
@@ -66,8 +68,6 @@ RUN yum install -y wget gcc pcre pcre-devel zlib zlib-devel openssl openssl-deve
                     --with-curl \
                     --with-openssl \
                     --with-zlib \
-                    --with-readline \
-                    --with-libedit \
     && make -j "$(nproc)" && make install \
 
     && cd $SOFT_DIR \
@@ -85,12 +85,10 @@ RUN yum install -y wget gcc pcre pcre-devel zlib zlib-devel openssl openssl-deve
     && /usr/local/php/7.1.19/bin/phpize \
     && ./configure --with-php-config=/usr/local/php/7.1.19/bin/php-config \
     && make -j "$(nproc)" && make install \
+
     && rm -fr $SOFT_DIR \
     && yum clean all && rm -rf /var/cache/yum
 
 EXPOSE 80 443
 CMD ["nginx", "-g", "daemon off;"]
-
-
-
 
