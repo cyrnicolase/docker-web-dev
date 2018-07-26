@@ -98,5 +98,5 @@ RUN yum install -y wget gcc pcre pcre-devel zlib zlib-devel openssl openssl-deve
     && rm -fr /var/cache/yum \
     && yum clean all
 
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 
