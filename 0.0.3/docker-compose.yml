@@ -1,0 +1,23 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    container_name: hc-nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./etc/nginx:/etc/nginx/
+      - ./logs/nginx:/var/log/nginx/
+      - /data/wwwroot:/usr/share/nginx/html
+    links:
+      - phpfpm
+
+  phpfpm:
+    image: hc-php-fpm
+    container_name: hc-fpm
+    working_dir: /data/wwwroot
+    volumes:
+      - /data/wwwroot:/data/wwwroot
+      - /data/ext:/data/ext
+      - /data/logs:/data/logs
+
