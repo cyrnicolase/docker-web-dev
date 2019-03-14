@@ -12,8 +12,12 @@ services:
     links:
       - phpfpm
 
+  # php-fpm
   phpfpm:
     image: hc-php-fpm
+    build:
+      context: ./php
+      dockerfile: Dockerfile
     container_name: hc-fpm
     working_dir: /data/wwwroot
     volumes:
