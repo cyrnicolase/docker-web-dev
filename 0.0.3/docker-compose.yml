@@ -4,11 +4,14 @@ services:
     image: nginx
     container_name: hc-nginx
     ports:
-      - "8081:80"
+      - "80:80"
+    working_dir: /data/wwwroot
     volumes:
-      - ./etc/nginx:/etc/nginx/
-      - ./logs/nginx:/var/log/nginx/
-      - /data/wwwroot:/usr/share/nginx/html
+      # - ./etc/nginx:/etc/nginx/
+      # - ./logs/nginx:/var/log/nginx/
+      - /usr/local/etc/nginx:/etc/nginx
+      - /data/wwwroot:/data/wwwroot
+      - /data/logs:/data/logs
     links:
       - phpfpm
 

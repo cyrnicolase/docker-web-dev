@@ -4,7 +4,7 @@
 FROM php:7.3.3-fpm
 
 RUN apt-get update; \
-    apt-get install -y libpq-dev librabbitmq-dev; \
+    apt-get install -y libpq-dev librabbitmq-dev procps; \
     docker-php-ext-install -j$(nproc) pdo_pgsql; \
     \
     pecl install swoole-4.3.1; \
