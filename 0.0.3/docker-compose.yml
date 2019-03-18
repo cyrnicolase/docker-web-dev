@@ -7,11 +7,11 @@ services:
       - "80:80"
     working_dir: /data/wwwroot
     volumes:
-      # - ./etc/nginx:/etc/nginx/
+      - ./etc/nginx/:/etc/nginx/
       # - ./logs/nginx:/var/log/nginx/
-      - /usr/local/etc/nginx:/etc/nginx
-      - /data/wwwroot:/data/wwwroot
-      - /data/logs:/data/logs
+      # - /usr/local/etc/nginx:/etc/nginx/
+      - /data/wwwroot/:/data/wwwroot/
+      - /data/logs/:/data/logs/
     links:
       - phpfpm
 
@@ -24,7 +24,7 @@ services:
     container_name: hc-fpm
     working_dir: /data/wwwroot
     volumes:
-      - /data/wwwroot:/data/wwwroot
-      - /data/ext:/data/ext
-      - /data/logs:/data/logs
+      - /data/wwwroot/:/data/wwwroot/
+      - /data/ext/:/data/ext/
+      - /data/logs/:/data/logs/
 
