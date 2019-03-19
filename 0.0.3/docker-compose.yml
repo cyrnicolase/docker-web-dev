@@ -3,6 +3,8 @@ services:
   nginx:
     image: nginx
     container_name: hc-nginx
+    # privileged: true 用于避免容器没有读取主机的挂载卷权限 
+    privileged: true
     ports:
       - "80:80"
     working_dir: /data/wwwroot
@@ -18,6 +20,8 @@ services:
   # php-fpm
   phpfpm:
     image: hc-php-fpm
+    # privileged: true 用于避免容器没有读取主机的挂载卷权限 
+    privileged: true
     build:
       context: ./php
       dockerfile: Dockerfile
