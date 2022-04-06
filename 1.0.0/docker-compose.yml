@@ -11,7 +11,7 @@ services:
       - ./wwwroot:/usr/share/nginx/html
       - ./conf.d:/etc/nginx/conf.d
 
-  php:
+  php-fpm:
     build: 
       context: ./php-fpm
     container_name: c-php-fpm
